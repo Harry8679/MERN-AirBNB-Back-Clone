@@ -25,9 +25,12 @@ app.get('/test', (req, res) => {
 app.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
     // res.json({ name, email, password });
-    const userDoc = await User.create({ name, email, password: bcrypt.hashSync(password, bcryptSalt) });
-
-    res.json(userDoc);
+    try {
+        const userDoc = await User.create({ name, email, password: bcrypt.hashSync(password, bcryptSalt) });
+        res.json(userDoc);
+    } catch(err) {
+        res.status(422).json(e);
+    }
 });
 
 const PORT = 4080;
